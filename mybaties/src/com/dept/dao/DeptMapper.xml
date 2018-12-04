@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dept.dao.DeptMapper">
+
+    <select id="getAllDeptDTO" resultType="com.dept.dto.DeptDTO">
+        select * from dept t order by t.DEPTNO
+    </select>
+
+    <select id="foreachtest" parameterType="list" resultType="com.dept.dto.DeptDTO">
+        select t.*, t.rowid from DEPT t where t.deptno in
+                <foreach collection="list" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+    </select>
+
+    <select id="serchDeptDtoByParam" resultType="com.dept.dto.DeptDTO">
+        select * from dept t
+        <where>
+            <if test="deptNo != '' and deptNo != null">
+                <bind name="deptNo" value="'%'+deptNo+'%'"></bind>
+                and t.DEPTNO like #{deptNo}
+            </if>
+            <if test="dName != '' and dName != null">
+                <bind name="dName" value="'%'+dName+'%'"></bind>
+                and t.dName like #{dName}
+            </if>
+            <if test="loc != '' and loc != null">
+                <bind name="loc" value="'%'+loc+'%'"></bind>
+                and t.loc like #{loc}
+            </if>
+        </where>
+    </select>
+</mapper>

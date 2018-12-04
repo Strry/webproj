@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.emp.dao.EmpDAO">
+    <resultMap id="empdto" type="EmpDTO" autoMapping="false">
+        <result property="empno" column="EMPNO"></result>
+        <result property="ename" column="ENAME"></result>
+        <result property="job" column="JOB"></result>
+        <result property="mgr" column="MGR"></result>
+        <result property="hiredate" column="HIREDATE"></result>
+        <result property="sal" column="SAL"></result>
+        <result property="comm" column="COMM"></result>
+        <result property="deptno" column="DEPTNO"></result>
+        <association property="deptdto" select="com.emp.dao.EmpDAO.getOneDeptDto" column="deptno"/>
+        <collection property="deptlist" select="com.emp.dao.EmpDAO.getDeptDtoList" column="DEPTNO"/>
+    </resultMap>
+
+    <select id="getAllEmp" resultMap="empdto">
+        select * from EMP
+    </select>
+
+    <select id="searchEmpByDeptNo" parameterType="string" resultMap="empdto">
+        select * from EMP t where t.DEPTNO = #{deptno}
+    </select>
+
+    <select id="searchByParam" parameterType="empdto" resultMap="empdto">
+        select * from EMP t
+        <where>
+            <if test="empno != null and empno != ''">
+                and t.empno =#{empno}
+            </if>
+            <if test="deptno != null and deptno != ''">
+                and t.deptno =#{deptno}
+            </if>
+        </where>
+    </select>
+
+    <select id="getOneDeptDto" resultType="com.dept.dto.DeptDTO" parameterType="string">
+        select t.* from dept t left join emp l on t.deptno = l.deptno where t.deptno =#{0} and rownum=1
+    </select>
+
+    <select id="getDeptDtoList" resultType="com.dept.dto.DeptDTO" parameterType="string">
+        select t.* from dept t left join emp l on t.deptno = l.deptno where t.deptno =#{0}
+    </select>
+
+</mapper>

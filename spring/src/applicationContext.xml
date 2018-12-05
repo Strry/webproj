@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--spring整合mybaties-->
+
+
+
+
+
+
+
+    <!--IOC:将创建对象的工作交给spring-->
+    <!--
+    class DeptDTO {
+        public DeptDTO() {}
+        public DeptDTO(String deptNo, String dName, String loc) {
+            this.deptNo = deptNo;
+            this.dName = dName;
+            this.loc = loc;
+        }
+    }
+    -->
+    <!--类初始化有三种方式 第一种：通过构造方法创建类-->
+    <!--<bean id="dept" class="com.dept.dto.DeptDTO"/>-->
+
+    <!--有参构造方式 index为有参构造函数的参数顺序号，name为参数变量名，value为初始化的值，type为参数的变量类型如int、String等
+    多个有参构造函数情况下，通过以上变量足够让spring确定出使用哪个构造函数-->
+    <!--<bean id="dept" class="com.dept.dto.DeptDTO">
+        <constructor-arg index="0" value="19"></constructor-arg>
+        <constructor-arg index="1" value="dNameisxxxxxxx"></constructor-arg>
+        <constructor-arg index="2" value="locisxxxx"></constructor-arg>
+    </bean>-->
+
+    <!--第二种：通过实例工厂创建对象-->
+    <!--
+    class deptFactory{
+        public dept getInstance(){
+            return new DeptDTO();
+        }
+    }
+    -->
+    <!--<bean id="factory" class="xxx.deptFactory"/>
+    <bean id="dept" factory-bean="factory" factory-method="getInstance"/>-->
+
+    <!--第三种：通过静态工厂创建对象-->
+    <!--
+    class deptFactory{
+        public static dept getInstance(){
+            return new DeptDTO();
+        }
+    }
+    -->
+    <!--<bean id="dept" class="xxx.deptFactory" factory-method="getInstance"/>-->
+
+    <!--注入：给bean属性赋值-->
+    <!--<bean id="dept" class="com.dept.dto.DeptDTO">
+            <property name="deptNo" value="122"/>
+            <property name="dName">
+                <value>12</value>
+            </property>
+            <property name="loc" value="qweqe"/>-->
+        <!--依赖注入：一个类引用另一个类的对象
+            <property ref="另一个类的对象">
+        </bean>
+        <bean id="另一个类的对象" class="xxxxx.另一个类"/>-->
+
+</beans>

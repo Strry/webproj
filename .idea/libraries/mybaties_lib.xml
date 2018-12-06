@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="mybaties_lib">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/mybaties/web/WEB-INF/lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://E:/IT/Java/_src/javax.servlet-api-3.0.1-sources.jar!/" />
+      <root url="file://E:/IT/Java/_src/mybatis-3-mybatis-3.2.7/src/main/java" />
+      <root url="file://E:/IT/Java/_src/mybatis-3-mybatis-3.2.7/src/test/java" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/mybaties/web/WEB-INF/lib" recursive="false" />
+  </library>
+</component>

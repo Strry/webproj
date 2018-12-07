@@ -3,4 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
+    <!--上下文参数-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext.xml</param-value>
+    </context-param>
+
+    <!--封装监听器 因为servlet由tomcat管理，如想将servlet交由spring管理需要封装监听器ContextLoaderListener,
+    ContextLoaderListener在实例化时会实现一个applicationContext的子容器：WebApplicationContext,所有的类对象都在其中。
+    在servlet中调用spring的工具类：WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext())
+    就可获取WebApplicationContext对象，用法同applicationContext-->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 </web-app>

@@ -1,11 +1,90 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <!--spring整合mybaties-->
 
+    <!--AOP第二种方式：aspect-->
+    <aop:config>
+        <!--在aspect标签里关联通知类-->
+        <aop:aspect ref="MyAdvice">
+            <aop:pointcut id="mypointcut" expression="execution(* com.dept.dto.DeptDTO.AOPFuntiondemo2(String,int)) and args(arg0_String,arg1_int)"/>
+            <aop:before method="myBe4Advice" pointcut-ref="mypointcut" arg-names="arg0_String,arg1_int"/>
+            <!--after：无论是否有异常都执行，afterreturning:切点正常运行时执行，抛出异常不执行
+            当程序正常执行时 两个方法调用的顺序由web.xml中配置的先后顺序决定-->
+            <!--<aop:after method="myAfterAdvice" pointcut-ref="mypointcut"/>-->
+            <!--<aop:after-returning method="myAfterReturnAdvice" pointcut-ref="mypointcut"/>-->
+            <!--<aop:around method="myarround" pointcut-ref="mypointcut"/>-->
+            <!--使用after-throwing标签调用异常类-->
+            <!--<aop:after-throwing method="aspectThrowAdvice" pointcut-ref="mypointcut" throwing="e"/>-->
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="MyAdvice" class="AOP.AOP_Aspect.MyAdvice"/>
+    <bean id="dept" class="com.dept.dto.DeptDTO"></bean>
+
+
+
+
+</beans>
+
+        <!--AOP Schema-Base方式演示-->
+        <!--<aop:config>-->
+        <!--execution(* com.dept.dto.DeptDTO.AOPFuntiondemo2())中第一个星号表示声明通配符，
+        后面的星号表示匹配任意一级包名，任意类名，任意方法名
+        如：execution(* com.dept.dto.DeptDTO.*)表示demo1,2,3都加入前置后置通知。
+        方法中多参数写法：execution(* com.dept.dto.DeptDTO.AOPFuntiondemo2(String,int)) and args(参数名1，参数名2)
+        execution(* com.dept.dto.DeptDTO.AOPFuntiondemo2(..)".."表示匹配方法中任意参数
+        execution(* com.dept.dto.*.*(..)表示dto包下的任意类任意方法任意参数都进行AOP-->
+
+        <!--<aop:pointcut id="mypoint" expression="execution(* com.dept.dto.DeptDTO.AOPFuntiondemo2())"/>-->
+        <!--<aop:advisor advice-ref="MyBe4Advice" pointcut-ref="mypoint"/>-->
+        <!--<aop:advisor advice-ref="MyAfterAdvice" pointcut-ref="mypoint"/>-->
+        <!--<aop:advisor advice-ref="MyThrowAdvice" pointcut-ref="mypoint"/>-->
+        <!--<aop:advisor advice-ref="MyArround" pointcut-ref="mypoint"/>-->
+        <!--</aop:config>-->
+
+        <!--<bean id="MyBe4Advice" class="MyBe4Advice"></bean>-->
+        <!--<bean id="MyAfterAdvice" class="MyAfterAdvice"></bean>-->
+        <!--<bean id="MyThrowAdvice" class="MyThrowAdvice"></bean>-->
+        <!--<bean id="MyArround" class="MyArround"></bean>-->
+        <!--<bean id="dept" class="com.dept.dto.DeptDTO"></bean>-->
+
+
+
+
+
+
+
+    <!--spring整合mybaties  spring-jdbc.jar -->
+    <!--<bean id="mybatiesDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:orcl"/>
+        <property name="username" value="myoracle"/>
+        <property name="password" value="cape"/>
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+    </bean>-->
+
+    <!--导入mybaties-spring.jar 获取sqlsessionfactory-->
+    <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="mybatiesDataSource"/>
+    </bean>-->
+
+    <!--mapper扫描器 相当于mybaties配置文件中的mapper标签-->
+    <!--<bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.dept.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>-->
+
+    <!--通过查看spring管理的类名可以发现 可以获取dept的mapper接口对象，
+    此时新建deptservice 添加接口对象为属性，并提供getset方法,方便spring设置注入，让spring管理deptservice-->
+    <!--<bean id="deptservice" class="com.dept.service.DeptService">
+        <property name="depemapper" ref="deptMapper"></property>
+    </bean>-->
+    <!--整合mybaties结束-->
 
 
 
@@ -62,9 +141,8 @@
                 <value>12</value>
             </property>
             <property name="loc" value="qweqe"/>-->
-        <!--依赖注入：一个类引用另一个类的对象
+        <!--依赖注入 DI：一个类引用另一个类的对象
             <property ref="另一个类的对象">
         </bean>
         <bean id="另一个类的对象" class="xxxxx.另一个类"/>-->
-
-</beans>
+    <!--IOC测试结束-->
